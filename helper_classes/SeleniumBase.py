@@ -4,8 +4,11 @@ from abc import abstractmethod
 from selenium.webdriver.chrome.options import Options
 from user_agent import generate_user_agent, generate_navigator
 
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
+
 userAgent = generate_user_agent()
-# userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.7 Safari/537.36'
+
 
 temp_storage = os.getenv('TEMP_STORAGE')
 root_path = os.getenv('ROOT')
@@ -15,6 +18,7 @@ image_upload_path = os.getenv('IMAGE_UPLOAD')
 class SeleniumBase:
     def __init__(self):
         self.root_path = root_path
+        self.temp_storage = temp_storage
 
         self.options = Options()
         self.options.headless = False
