@@ -1,8 +1,14 @@
 import os
+from selenium import webdriver
 from abc import abstractmethod
 
 from selenium.webdriver.chrome.options import Options
 from user_agent import generate_user_agent, generate_navigator
+
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
@@ -16,6 +22,7 @@ image_upload_path = os.getenv('IMAGE_UPLOAD')
 
 
 class SeleniumBase:
+    driver = None
     def __init__(self):
         self.root_path = root_path
         self.temp_storage = temp_storage
@@ -30,6 +37,7 @@ class SeleniumBase:
         self.options.add_argument('--no-sandbox')
         self.options.add_argument("--disable-setuid-sandbox")
         self.options.add_argument('--disable-dev-shm-usage')
+        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), chrome_options=self.options)
 
     @abstractmethod
     def parse(self):
